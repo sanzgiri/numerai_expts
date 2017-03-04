@@ -13,7 +13,7 @@ from sklearn import preprocessing
 from sklearn.calibration import CalibratedClassifierCV  
 from sklearn.cluster import MiniBatchKMeans
 
-df = pd.read_csv("/home/asanzgiri/my_numerai/numerai_training_data.csv")
+df = pd.read_csv("/input/numerai_training_data.csv")
 training = df.values[:, :50]  
 classes = df.values[:, -1]  
 training = preprocessing.scale(training)  
@@ -44,7 +44,7 @@ for i in range(0, np.shape(training)[0]):
 
 gbm = gbm.fit(factors, classes)    
 
-tf = pd.read_csv("/home/asanzgiri/my_numerai/numerai_tournament_data.csv")  
+tf = pd.read_csv("/input/numerai_tournament_data.csv")  
 forecast = tf.values[:, 1:]  
 forecast = preprocessing.scale(forecast)  
 labels = kmeans.predict(forecast)
@@ -57,4 +57,4 @@ proba = gbm.predict_proba(factors)
 
 of = pd.Series(proba[:, 1], index=tf.values[:, 0].astype(int))
 
-of.to_csv("/home/asanzgiri/my_numerai/predictions_s1.csv", header=['probability'], index_label='t_id')  
+of.to_csv("/output/predictions_gb.csv", header=['probability'], index_label='t_id')  
